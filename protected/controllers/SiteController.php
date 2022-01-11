@@ -111,13 +111,13 @@ class SiteController extends Controller
             return $this->redirect(['site/newidx']);
         }
 
-        if ($model->load(Yii::$app->request->post())) {
-            $users = new Users();
-            $aktivateuser = $users->getAktivasi($model->username);
-            if (!$aktivateuser->is_active) {
-                $verifikasi = ['success' => false, 'message' => 'Your account is in the process of activation by Administrator', 'status' => 'Process Activation'];
-            }
-        }
+        // if ($model->load(Yii::$app->request->post())) {
+        //     $users = new Users();
+        //     $aktivateuser = $users->getAktivasi($model->username);
+        //     if (!$aktivateuser->is_active) {
+        //         $verifikasi = ['success' => false, 'message' => 'Your account is in the process of activation by Administrator', 'status' => 'Process Activation'];
+        //     }
+        // }
         $model->password = '';
         return $this->render('login', [
             'model' => $model, 'verified' => $verifikasi
@@ -253,5 +253,30 @@ class SiteController extends Controller
             $data .= substr('====', $mod4);
         }
         return base64_decode($data);
+    }
+
+    public function actionProseslogin()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(Yii::$app->request->isPost){            
+            try {
+                $model = new LoginForm();
+                var_dump($model->load(Yii::$app->request->post()));
+                var_dump($model->login());
+                exit;
+                
+                
+                if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                    $data = [
+                        'status' => 'success',
+                        'data' => 'token'
+                    ];
+                    return $data; 
+                    
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
     }
 }

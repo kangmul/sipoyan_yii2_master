@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ERROR || E_PARSE, true);
+// error_reporting();
 date_default_timezone_set("Asia/Jakarta");
 // comment out the following two lines when deployed to production
 defined('YII_DEBUG') or define('YII_DEBUG', true);
