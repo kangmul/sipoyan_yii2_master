@@ -8,16 +8,17 @@ use Yii;
  * This is the model class for table "{{%users}}".
  *
  * @property int $id
- * @property string|null $username
- * @property string|null $email
- * @property string|null $password
- * @property string|null $authKey
- * @property string|null $accessToken
- * @property bool|null $is_active
- * @property string|null $created_by
- * @property string|null $created_date
- * @property bool|null $validate
- * @property int|null $role_id
+ * @property string $nickname
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ * @property bool $is_active
+ * @property string $role
+ * @property int $role_id
+ * @property string|null $api_token
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property int|null $expired
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -35,13 +36,15 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'email', 'password', 'rt', 'no_hp', 'alamat', 'username'], 'required'],
-            [['email'], 'email'],
-            [['is_active', 'validate'], 'boolean'],
-            [['created_date'], 'safe'],
-            [['role_id'], 'default', 'value' => null],
-            [['role_id'], 'integer'],
-            [['username', 'email', 'password', 'authKey', 'accessToken', 'created_by'], 'string', 'max' => 255],
+            [['first_name', 'username', 'email', 'password', 'nik', 'no_hp', 'rt', 'rw'], 'required'],
+            [['is_active'], 'boolean'],
+            [['role_id', 'expired'], 'default', 'value' => null],
+            [['role_id', 'expired'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['username'], 'string', 'max' => 20],
+            [['email', 'password', 'role'], 'string', 'max' => 255],
+            [['api_token'], 'string', 'max' => 512],
+            [['email'], 'unique'],
         ];
     }
 
@@ -55,17 +58,16 @@ class Users extends \yii\db\ActiveRecord
             'username' => 'Username',
             'email' => 'Email',
             'password' => 'Password',
-            'authKey' => 'Auth Key',
-            'accessToken' => 'Access Token',
             'is_active' => 'Is Active',
-            'created_by' => 'Created By',
-            'created_date' => 'Created Date',
-            'validate' => 'Validate',
+            'role' => 'Role',
             'role_id' => 'Role ID',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
+            'api_token' => 'Api Token',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'expired' => 'Expired',
+            'nik' => 'NIK',
             'rt' => 'RT',
-            'username' => 'Username',
+            'rw' => 'RW'
         ];
     }
 
@@ -80,11 +82,7 @@ class Users extends \yii\db\ActiveRecord
 
     public static function findByUsername($username)
     {
-        return self::findOne(['username' => $username, 'is_active' => true]);
+        return self::findOne(['username' => $username]);
     }
 
-    public static function findIdentity($id)
-    {
-        return isset(self::$id) ? new static(self::$id) : null;
-    }
 }
