@@ -19,6 +19,14 @@ $this->title = 'Login';
                     <img src="<?= Yii::$app->request->baseUrl ?>/themes/assets/img/logo/logo.png" alt="logo" width="80" class="shadow-light mb-5 mt-3">
                     <h4 class="text-dark font-weight-normal">Welcome</h4>
                     <p class="text-muted">Before you get started, you must login or register if you don't already have an account.</p>
+                    <?php if(!empty($verified)) : ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong><?= $verified['status'] ?></strong> <?= $verified['message'] ?>.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
                     <?php $form = ActiveForm::begin([
                         'id' => 'login-form',
                         'class' => 'needs-validation',
@@ -51,7 +59,7 @@ $this->title = 'Login';
 
                 <?php ActiveForm::end(); ?>
 
-                <div class="mt-5 text-center">Don't have an account? <a href="auth-register.html">Create new one</a></div>
+                <div class="mt-5 text-center">Don't have an account? <a href="<?= Url::to([Yii::$app->controller->id.'/registeruser'], $schema = true) ?>">Create new one</a></div>
 
                 <div class="text-center mt-5 text-small">
                     Copyright &copy; SIWASUKMA Made with 💙 by Stisla
