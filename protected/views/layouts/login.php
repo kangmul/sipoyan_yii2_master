@@ -26,6 +26,27 @@ AppAsset::register($this);
 </head>
 
 <body>
+    <!-- MODAL ALL VIEWS -->
+    <!-- Modal -->
+    <div class="modal fade" id="modalSipoyan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="dismissClose">Close</button>
+                <button type="button" class="btn btn-primary" id="agreeOk">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <?php $this->beginBody() ?>
 
     <?= $content ?>
